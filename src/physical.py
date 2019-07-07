@@ -54,6 +54,8 @@ class Physical:
             self._datetime = self._datetime.strftime("%Y-%m-%d %H:%M:%S")
         else:
             self._datetime = self._getDatetimeFromName()
+            if self._datetime == "":
+                self._datetime = self._getDatetimeIphoneClip()
 
         if 'Image Make' in exif:
             self._camera = exif['Image Make']
@@ -73,6 +75,16 @@ class Physical:
             return match.group(2)+match.group(3)+"-"+match.group(4)+"-"+match.group(5)+" "+match.group(7)+":"+match.group(8)+":" + match.group(9)
         else:
             return ""
+
+    def _getDatetimeIphoneClip(self):
+        if self._ext in [".MOV",".mov"]:
+            imgpath = os.path.dirname(os.path.abspath(self._path))
+            imgname = os.path.splitext(self._filename)[0]+".jpg"
+            imgpath = os.path.join(imgpath,imgname)
+            physicalImg = Physical(imgpath)
+            physicalImg.loadInfo()
+            return physicalImg.getDatetime()
+        return ""
 
     def info(self):
         print('Filename: '+str(self._filename))
