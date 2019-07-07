@@ -30,7 +30,7 @@ class Rename2Creationtime:
 
     def getCreationDate(self, path):
         if platform.system() == 'Windows':
-            return self.secondsToDatetime(os.path.getctime(path))
+            return self.secondsToDatetime(os.path.getmtime(path))
         else:
             stat = os.stat(path)
         try:
