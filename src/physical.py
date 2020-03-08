@@ -81,6 +81,7 @@ class Physical:
             imgpath = os.path.dirname(os.path.abspath(self._path))
             imgname = os.path.splitext(self._filename)[0]+".jpg"
             imgpath = os.path.join(imgpath,imgname)
+            if os.path.isfile(imgpath) is False: return ""
             physicalImg = Physical(imgpath)
             physicalImg.loadInfo()
             return physicalImg.getDatetime()
