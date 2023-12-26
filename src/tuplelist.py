@@ -29,9 +29,22 @@ class TupleList:
         N_p = len(self._list_p)
         N_v = len(self._list_v)
         i_p = 0
-        i_v = 0
 
-        while i_p < N_p and i_v < N_v:
+        while i_p < N_p:
+            print("Progress", i_p, "/", N_p)
+            i_v = 0
+            wasFound = False
+            while i_v < N_v and wasFound is False:
+                file_p = self._list_p.get(i_p)
+                file_v = self._list_v.get(i_v)
+                if file_v.getName() == file_p.getName():
+                    self._tuples.append(Tuple(file_p, file_v))
+                    wasFound = True
+                i_v += 1
+            i_p += 1
+        logging.info("Number tuples loaded: "+str(len(self._tuples)))
+
+        """while i_p < N_p and i_v < N_v:
             file_p = self._list_p.get(i_p)
             file_v = self._list_v.get(i_v)
             if file_v.getName() == file_p.getName():
@@ -60,13 +73,15 @@ class TupleList:
             logging.error("Den fysiska filen till den virtuella '" +
                           file_v.getName()+"' hittades inte i '"+self._list_v.getCSVPath()+"'")
             i_v += 1
-            self._nr_missing_physical += 1
+            self._nr_missing_physical += 1"""
 
     def getNrMissingPhysical(self):
-        return self._nr_missing_physical
+        #return self._nr_missing_physical
+        return len(self._list_p) - len(self._tuples)
 
     def getNrMissingVirtual(self):
-        return self._nr_missing_virtual
+        #return self._nr_missing_virtual
+        return len(self._list_v) - len(self._tuples)
 
     def getVirtualList(self):
         return self._list_v
@@ -77,8 +92,8 @@ class TupleList:
 
 def main():
     logging.basicConfig(level=logging.INFO)
-    dir_path = '../../Media/organized'
-    csv_path = '../../Media/files.csv'
+    dir_path = '../organized'
+    csv_path = '../files.csv'
     tl = TupleList(csv_path, dir_path)
 
 

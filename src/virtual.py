@@ -31,4 +31,4 @@ class Virtual:
         return self._datetime < other._datetime
 
     def getName(self):
-        return str(os.path.basename(self._path))
+        return str(os.path.basename(self._path)).lower()

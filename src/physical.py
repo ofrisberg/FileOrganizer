@@ -103,7 +103,7 @@ class Physical:
 
     """ Getters """
 
-    def getName(self): return str(self._filename)
+    def getName(self): return str(self._filename).lower()
     def getDirName(self): return str(self._dirname)
     def getExtension(self): return str(self._ext)
     def getDatetime(self): return str(self._datetime)
